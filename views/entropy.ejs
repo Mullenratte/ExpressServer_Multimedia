@@ -7,31 +7,43 @@
   <body>
     <h1><%= title %></h1>
     <p><a href="/caesar">Aufgabe 3: Caesar-Cipher</a></p>
-    <% 
-    var text = "hello test world";
-    var alphabet = new Map();
+    <form id="entropy-form" method="POST" action="/entropy">
+      <div class="form-group">
+        <label for="inputText"></label>
+        <textarea class="form-control" name="inputText" id="inputText" rows="3"></textarea>
+      </div>
+      <button type="submit">Try</button>
+    </form>
+    <% if (calculateResult){ %>
+      <div>
+        <p>Originaltext:</p>
+        <p><%=originalText%></p>
+      </div>
+  
+  
+      
+  
+      <table>
+        <tr>
+          <th>Buchstabe</th>
+          <th>Absolute Häufigkeit</th>
+          <th>Relative Häufigkeit</th>
+          <th>Informationsgehalt</th>
+        </tr>
+        <% for (var i = 0; i < 26; i ++){ %>
+          <tr>
+            <td><%= String.fromCharCode(i + 97) %></td>
+            <td><%= absolute[i] %></td>
+            <td><%= relative[i] %></td>
+            <td><%= informationContent[i] %></td>
+          </tr>
+         <% } %>
+      
+          
+      </table>
+    <% } %>
 
-    for (let char of text){
-      char = char.toLowerCase();
 
-      if (/[a-z]/.test(char)){
-        let amount;
-        if (alphabet.get(char) == undefined){
-          amount = 1;
-        } else{
-          amount = alphabet.get(char) + 1;
-        }
-        alphabet.set(char, amount);
-      }
-    }
-
-    console.log(alphabet);
-
-
-
-
-
-    %>
     <p><a href="/">Back to main</a></p>
 
   </body>
