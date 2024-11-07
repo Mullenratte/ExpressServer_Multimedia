@@ -35,7 +35,7 @@ router.post('/', function(req, res){
 
   var informationContent = new Array(26);
   for (let i = 0; i < informationContent.length; i++){
-    informationContent[i] = relative[i] > 0 ? Math.log2(1/relative[i]) : "-";
+    informationContent[i] = relative[i] > 0 ? Math.log2(1/relative[i]) : 0;
   }
 
   res.render('entropy', { title: "Aufgabe 2: Häufigkeitsverteilung", calculateResult: true, originalText: originalText, absolute: absolute, relative: relative, informationContent: informationContent})
