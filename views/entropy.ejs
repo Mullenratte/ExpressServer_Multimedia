@@ -32,11 +32,29 @@
         <% for (var i = 0; i < 26; i ++){ %>
           <tr>
             <td><%= String.fromCharCode(i + 97) %></td>
-            <td><%= absolute[i] %></td>
+            <td><%= absolute[i] %></td>         
             <td><%= relative[i].toFixed(3) %></td>
             <td><%= informationContent[i].toFixed(3) %></td>
           </tr>
-         <% } %>
+        <% } %>
+        <tr>
+          <td>ä</td>
+          <td><%= absolute[26] %></td>         
+          <td><%= relative[26].toFixed(3) %></td>
+          <td><%= informationContent[26].toFixed(3) %></td>
+        </tr>
+        <tr>
+          <td>ö</td>
+          <td><%= absolute[27] %></td>         
+          <td><%= relative[27].toFixed(3) %></td>
+          <td><%= informationContent[27].toFixed(3) %></td>
+        </tr>
+        <tr>
+          <td>ü</td>
+          <td><%= absolute[28] %></td>         
+          <td><%= relative[28].toFixed(3) %></td>
+          <td><%= informationContent[28].toFixed(3) %></td>
+        </tr>
       
           
       </table>

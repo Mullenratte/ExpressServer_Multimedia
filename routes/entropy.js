@@ -7,33 +7,42 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res){
-  var text = req.body.inputText;
+  var text = req.body.inputText.toLowerCase();
   var originalText = text;
-  var totalCharacters = text.length;
+  var textCharacters = text.match(/[a-zäöü]+/g).join('');
+  var totalCharacters = textCharacters.length;
 
-  var alphabet = new Map();
-  for (let i = 97; i < 123; i ++){
-    alphabet.set(i, 0);
-  }
+  var absolute = new Array(29).fill(0);
+  for (let i = 0; i < textCharacters.length; i++){
+    let charCode = textCharacters.charCodeAt(i);
+    console.log(charCode);
 
-  for (let char of text){
-    char = char.toLowerCase();
-    if (/[a-z]/.test(char)){
-      alphabet.set(char.charCodeAt(0), alphabet.get(char.charCodeAt(0)) + 1);
+    switch (charCode) {
+      case 252:
+        console.log("found a ü")
+        absolute[28] += 1;
+        break;
+      case 228:
+        console.log("found a ä")
+
+        absolute[26] += 1;
+        break;
+      case 246:
+        absolute[27] += 1;
+        console.log("found a ö")
+        break;
+      default:
+        absolute[charCode - 97] += 1;
+        break;
     }
   }
 
-  var absolute = new Array(26);
-  for (let i = 0; i < absolute.length; i++){
-    absolute[i] = alphabet.get(i + 97);
-  }
-
-  var relative = new Array(26);
+  var relative = new Array(29);
   for (let i = 0; i < relative.length; i++){
-    relative[i] = alphabet.get(i + 97) / totalCharacters;
+    relative[i] = absolute[i] / totalCharacters;
   }
 
-  var informationContent = new Array(26);
+  var informationContent = new Array(29);
   for (let i = 0; i < informationContent.length; i++){
     informationContent[i] = relative[i] > 0 ? Math.log2(1/relative[i]) : 0;
   }
