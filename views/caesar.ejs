@@ -8,14 +8,35 @@
     <h1><%= title %></h1>
     <p><a href="/entropy">Aufgabe 2: Häufigkeitsverteilung</a></p>
 
-    <form id="entropy-form" method="POST" action="/caesar">
+    <form id="caesar-form" method="POST" action="/caesar">
       <div class="form-group">
-        <label for="inputText"></label>
-        <input type="text" class="form-control" name="inputText" id="inputTexbt" rows="3"></input>
-
+        <label for="inputText">Your text here:</label>
+        <textarea class="form-control" name="inputText" id="inputText" oninput='this.style.height = "";this.style.height = this.scrollHeight + 3 + "px"'></textarea>
       </div>
-      <button type="submit">Try</button>
+
+      <div class="form-group">
+        <label for="shift">Cipher-Shift</label>
+        <input type="number" id="shift" name="shift" value="0" maxlength="2" min="-25" max="25"> </input>
+      </div>
+      <button type="submit" name="customKey">De-/Encode</button>
+      <button type="submit" name="bruteForce">Brute Force</button>
+
+
     </form>
+
+    <% if (showResult) { %>
+      <h3>Text after applying cipher: <%= shift %> (or <%= altShift %>)</h3>
+      <textarea readonly class="form-control" style="resize: none; field-sizing: content">
+        <%= shiftedText %>
+      </textarea>
+
+      <h3>Original text</h3>
+      <div class="form-group">
+        <textarea readonly class="form-control" style="resize: none; field-sizing: content;">
+          <%= originalText %>
+        </textarea>
+      </div>
+    <% } %>
 
     <p><a href="/">Back to main</a></p>
   </body>

@@ -7,29 +7,28 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res){
-  var text = req.body.inputText.toLowerCase();
+  var text = req.body.inputText;
   var originalText = text;
-  var textCharacters = text.match(/[a-zäöü]+/g).join('');
-  var totalCharacters = textCharacters.length;
+  var textCharacters = text.toLowerCase().match(/[a-zäöü]+/g).join('');
+  var totalChars = textCharacters.length;
 
   var absolute = new Array(29).fill(0);
   for (let i = 0; i < textCharacters.length; i++){
     let charCode = textCharacters.charCodeAt(i);
-    console.log(charCode);
 
     switch (charCode) {
-      case 252:
-        console.log("found a ü")
-        absolute[28] += 1;
-        break;
       case 228:
         console.log("found a ä")
 
-        absolute[26] += 1;
+        absolute[26]++;
         break;
       case 246:
-        absolute[27] += 1;
+        absolute[27]++;
         console.log("found a ö")
+        break;
+      case 252:
+        console.log("found a ü")
+        absolute[28]++;
         break;
       default:
         absolute[charCode - 97] += 1;
@@ -37,9 +36,9 @@ router.post('/', function(req, res){
     }
   }
 
-  var relative = new Array(29);
+  var relative = [...absolute];
   for (let i = 0; i < relative.length; i++){
-    relative[i] = absolute[i] / totalCharacters;
+    relative[i] /= totalChars;
   }
 
   var informationContent = new Array(29);
