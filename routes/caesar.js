@@ -23,14 +23,13 @@ router.post('/', (req, res) => {
 });
 
 function getBruteForceKey(text){
-  var textCharacters = text.match(/[A-Za-z]+/g).join('');
+  var extractedText = text.match(/[A-Za-z]+/g).join('');
   var absolute = new Array(52).fill(0);
 
   // fülle erste Hälfte des Arrays mit Anzahl Großbuchstaben, zweite Hälfte mit Anzahl Kleinbuchstaben
-  for (let i = 0; i < textCharacters.length; i++){
-    let charCode = textCharacters.charCodeAt(i);
-    let isSmallLetter = charCode >= 97;
-    if (isSmallLetter){
+  for (let i = 0; i < extractedText.length; i++){
+    let charCode = extractedText.charCodeAt(i);
+    if (charCode >= 97){
       absolute[charCode - 71] += 1;
     } else{
       absolute[charCode - 65] += 1;
@@ -38,15 +37,13 @@ function getBruteForceKey(text){
   }
   
   let indexOfMostCommon = absolute.indexOf(Math.max(...absolute));
-  let diff;
-  // wenn in erster Hälfte -> Berechne Entfernung zu 'E'; wenn in zweiter Hälfte -> Berechne Entfernung zu 'e'
-  if (indexOfMostCommon <= 25){
-    diff = 69 - (indexOfMostCommon + 65);
-  } else{
-    diff = 101 - (indexOfMostCommon + 71);
-  }
 
-  return diff;
+  // wenn häufigster Buchstabe in erster Hälfte -> Berechne Entfernung zu 'E'; wenn in zweiter Hälfte -> Berechne Entfernung zu 'e'
+  if (indexOfMostCommon < absolute.length / 2){
+    return (69 - (indexOfMostCommon + 65));
+  } else{
+    return (101 - (indexOfMostCommon + 71));
+  }
 }
 
 function applyKeyToText(text, shift) {
@@ -61,14 +58,14 @@ function applyKeyToText(text, shift) {
     }
     let charCode = text.charCodeAt(i);
 
-    let shiftedCode;
+    let shiftedCode = (charCode + shift);
     // Großbuchstaben
-    if (charCode <= 90){
-      shiftedCode = (charCode + shift) <= 90 ? (charCode + shift) : 65 + ((charCode + shift) % 90 - 1);
+    if (charCode <= 90 && shiftedCode > 90){
+      shiftedCode = 64 + shiftedCode % 90;
     }
     // Kleinbuchstaben 
-    else{
-      shiftedCode = (charCode + shift) <= 122 ? (charCode + shift) : 97 + ((charCode + shift) % 122 - 1);
+    else if (shiftedCode > 122){
+      shiftedCode = 96 + shiftedCode % 122
     }
     
     
