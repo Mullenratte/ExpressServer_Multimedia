@@ -9,24 +9,21 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res) => {
   var text = req.body.inputText;
   const originalText = text;
-  console.log(req.body)
+  
   var shift = parseInt(req.body.shift);
   if (req.body.bruteForce != undefined){
     shift = getBruteForceKey(text);
-    console.log("BRUTE FORCE KEY IS: " + shift);
   }
   
   var shiftedText = applyKeyToText(text, shift); 
-
-  var altShift = shift < 0 ? shift + 26 : shift -26;
-  res.render('caesar', { title: 'Aufgabe 3: Caesar-Cipher', showResult: true, originalText: originalText, shiftedText: shiftedText, shift: shift, altShift: altShift })
+  res.render('caesar', { title: 'Aufgabe 3: Caesar-Cipher', showResult: true, originalText: originalText, shiftedText: shiftedText, shift: shift})
 });
 
 function getBruteForceKey(text){
   var extractedText = text.match(/[A-Za-z]+/g).join('');
   var absolute = new Array(52).fill(0);
 
-  // fülle erste Hälfte des Arrays mit Anzahl Großbuchstaben, zweite Hälfte mit Anzahl Kleinbuchstaben
+  // fill first half with capital letters, seconds half with small letters
   for (let i = 0; i < extractedText.length; i++){
     let charCode = extractedText.charCodeAt(i);
     if (charCode >= 97){
@@ -38,7 +35,7 @@ function getBruteForceKey(text){
   
   let indexOfMostCommon = absolute.indexOf(Math.max(...absolute));
 
-  // wenn häufigster Buchstabe in erster Hälfte -> Berechne Entfernung zu 'E'; wenn in zweiter Hälfte -> Berechne Entfernung zu 'e'
+  // if most common letter is in first half -> calc dist to 'E' (69), else calc dist to 'e' (101)
   if (indexOfMostCommon < absolute.length / 2){
     return (69 - (indexOfMostCommon + 65));
   } else{

@@ -18,16 +18,12 @@ router.post('/', function(req, res){
 
     switch (charCode) {
       case 228:
-        console.log("found a ä")
-
         absolute[26]++;
         break;
       case 246:
         absolute[27]++;
-        console.log("found a ö")
         break;
       case 252:
-        console.log("found a ü")
         absolute[28]++;
         break;
       default:
