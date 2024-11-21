@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  </head>
+  <body>
+    <div style="margin-left: 25px; margin-top: 20px;">
+    <h1><%= title %></h1>
+    <p><a href="/image">Bild 2&3: Image</a></p>
+
+    
+        Please enter a matrix to be transformed via DCT
+        <form id="inputField" role="form" method="POST" action="/dct">
+          <% for (let k = 0; k < 8; k++) {
+            for (let j = 0; j < 8; j++){ %>
+
+              <input type="number" name="k<%= k %>j<%= j %>" value="0" maxlength="4" style="width: 80px; height: 50px;">
+            <% } %>
+            <br>
+          <% } %>
+          <button type="submit">DCT</button>
+        </form>  
+
+    <% if (showResult) { %>
+      
+      <div class="row align-items-start">
+        <div class="col">
+          <h3>Matrix after DCT: </h3>
+          <% for (let k = 0; k < 8; k++) {
+            for (let j = 0; j < 8; j++){ %>
+    
+              <input type="number" value="<%= results[k * 8 + j] %>" readonly maxlength="4" style="width: 80px; height: 50px;">
+            <% } %>
+            <br>
+          <% } %>
+        </div>
+        <div class="col">
+          <h3>Original matrix</h3>
+          <% for (let k = 0; k < 8; k++) {
+            for (let j = 0; j < 8; j++){ %>
+    
+              <input type="number" value="<%= originalMatrix[k * 8 + j] %>" readonly maxlength="4" style="width: 80px; height: 50px;">
+            <% } %>
+            <br>
+          <% } %>
+        </div>
+      </div>
+      
+
+
+    <% } %>
+
+    <p><a href="/">Back to main</a></p>
+  </div>
+
+  </body>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</html>

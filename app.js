@@ -8,6 +8,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var entropyRouter = require('./routes/entropy');
 var caesarRouter = require('./routes/caesar');
+var dctRouter = require('./routes/dct');
+var imageRouter = require('./routes/image');
 
 var app = express();
 
@@ -24,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/entropy', entropyRouter);
 app.use('/caesar', caesarRouter);
+app.use('/dct', dctRouter);
+app.use('/image', imageRouter);
 
 
 // catch 404 and forward to error handler
