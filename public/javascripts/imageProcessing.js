@@ -48,8 +48,6 @@ for (let i = 1; i <= 5; i++) {
     }
   }
   function getAverageColorRGB(pixelData) {
-
-
     let red = new Array(pixelData.length / 4);
     let green = [...red]
     let blue = [...red]
