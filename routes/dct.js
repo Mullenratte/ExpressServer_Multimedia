@@ -7,12 +7,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', (req, res) => {
-  let inputMatrix;
-
-  let bodyObj = JSON.parse(JSON.stringify(req.body));
-  let values = [...Object.values(bodyObj)];
+  const values = [...Object.values(req.body)];
   let results = new Array(values.length);
-
   for (let u = 0; u < 8; u++){
     for (let v = 0; v < 8; v++){
        results[u*8+v] = calcCoefficient(values, u, v);
