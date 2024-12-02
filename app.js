@@ -10,6 +10,7 @@ var entropyRouter = require('./routes/entropy');
 var caesarRouter = require('./routes/caesar');
 var dctRouter = require('./routes/dct');
 var imageRouter = require('./routes/image');
+var audioRouter = require('./routes/audio');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/entropy', entropyRouter);
 app.use('/caesar', caesarRouter);
 app.use('/dct', dctRouter);
 app.use('/image', imageRouter);
+app.use('/audio', audioRouter);
 
 
 // catch 404 and forward to error handler
