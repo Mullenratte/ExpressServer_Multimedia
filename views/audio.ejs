@@ -17,17 +17,22 @@
   </h1>
 
   <audio id="audio" controls>
-    <source src="Rules_of_Engagement.mp3" type="audio/mpeg">
+    <source src="battle.mp3" type="audio/mpeg">
     Please use a more modern browser that supports this audio element.
   </audio>
   <div style="margin: 25px;">
     <h4>(L) Panning (R)</h4>
-    <input type="range" id="panSlider" min="-1" max="1" value="0" step="0.01"" />
+    <input type="range" id="panSlider" min="-1" max="1" value="0" step="0.01" onclick="UpdatePanning()" />
 
   </div>
+
+  <button id="toggle">PLAY/PAUSE</button>
+  
   <button id="debug">DEBUG</button>
 
   <button id="analyse">ANALYSE</button>
+
+  <br>
 
   <canvas id="canvas"></canvas>
 
