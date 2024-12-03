@@ -21,17 +21,16 @@
     Please use a more modern browser that supports this audio element.
   </audio>
   <div style="margin: 25px;">
-    <h4>(L) Panning (R)</h4>
-    <input type="range" id="panSlider" min="-1" max="1" value="0" step="0.01" onclick="UpdatePanning()" />
-
+    <button id="toggle">PLAY/PAUSE</button>
+    <button id="analyse">ANALYSE</button>
   </div>
 
-  <button id="toggle">PLAY/PAUSE</button>
+  <div style="margin: 25px; margin-bottom: 0px;">
+    <h5>(L) Panning (R)</h5>
+    <input type="range" id="panSlider" min="-1" max="1" value="0" step="0.01"/>
+    <button id="resetPan">RESET</button>
+  </div>
   
-  <button id="debug">DEBUG</button>
-
-  <button id="analyse">ANALYSE</button>
-
   <br>
 
   <canvas id="canvas"></canvas>

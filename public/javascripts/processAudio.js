@@ -2,57 +2,64 @@ let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let audioElement = document.getElementById('audio');
 let analyser = audioCtx.createAnalyser();
 let track = audioCtx.createMediaElementSource(audioElement);
-let panSlider = document.getElementById('panSlider');
-let panning = panSlider.value;
 let stereoPanner = audioCtx.createStereoPanner(); 
 
 track = track.connect(stereoPanner).connect(analyser).connect(audioCtx.destination);
 
+HandleEventListeners(audioCtx);
 
-document.getElementById('analyse').addEventListener('click', ()=>{
-    AnimateData();
-});
+const colWidth = 2;
+const canvasHeight = 510;
+const canvasWidth = analyser.frequencyBinCount * colWidth;
 
-document.getElementById('toggle').addEventListener('click', () =>{
-    if (audioCtx.state == 'running'){
-        audioCtx.suspend();
-    } else if (audioCtx.state == 'suspended'){
-        audioCtx.resume();
-    }
-})
+function HandleEventListeners(audioCtx){
+    document.getElementById('panSlider').addEventListener('click', UpdatePanning);
+    document.getElementById('resetPan').addEventListener('click', ResetPanning);
 
-document.getElementById('debug').addEventListener('click', () =>{
-    console.log(stereoPanner.pan.value);
-});
+    document.getElementById('analyse').addEventListener('click', ()=>{
+        AnimateData();
+    });
+    
+    document.getElementById('toggle').addEventListener('click', () =>{
+        if (audioCtx.state == 'running'){
+            audioCtx.suspend();
+        } else if (audioCtx.state == 'suspended'){
+            audioCtx.resume();
+        }
+    })
+}
 
 function UpdatePanning(){
     stereoPanner.pan.value = document.getElementById('panSlider').value;
 }
 
+function ResetPanning(){
+    stereoPanner.pan.value = 0;
+    document.getElementById('panSlider').value = 0;
+}
+
 function AnimateData(){
     const canvas = document.getElementById('canvas');
+    canvas.height = canvasHeight;
+    canvas.width = canvasWidth; 
     const ctx = canvas.getContext('2d');
-
-    const colWidth = 3;
-    const spaceBetweenCol = 5;
-
-
-    let dataArray = new Uint8Array(analyser.frequencyBinCount);
+    
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.66)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    const dataArray = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(dataArray);
 
-    canvas.width = dataArray.length * colWidth + spaceBetweenCol; 
-    console.log(canvas.width)
-
-    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(254, 0, 0, 1)';
 
     for (let i = 0; i < dataArray.length; i++){
-        ctx.fillRect(i * colWidth + spaceBetweenCol, canvas.height, colWidth, (-dataArray[i]/255) * canvas.height);
+        const r = Math.max(dataArray[i], 80);
+        const b = 100;
+        ctx.fillStyle = 'rgba(' + r + ', 33, ' + b + ', 1)';
+
+        ctx.fillRect(i * colWidth, canvas.height, colWidth, -dataArray[i]/255 * canvas.height);
     }
 
-    requestAnimationFrame(AnimateData);
-    
+    requestAnimationFrame(AnimateData);    
 }
 
 
