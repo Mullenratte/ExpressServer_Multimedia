@@ -26,10 +26,12 @@ function HandleEventListeners(audioCtx){
             audioCtx.suspend();
             audioElement.pause();
             toggleButton.dataset.playing = "false";
+            toggleButton.value = "PLAY";
         } else{
             audioCtx.resume();
             audioElement.play();
             toggleButton.dataset.playing = "true";
+            toggleButton.value = "PAUSE";
         }
     })
 }
