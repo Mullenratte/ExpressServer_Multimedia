@@ -20,11 +20,16 @@ function HandleEventListeners(audioCtx){
         AnimateData();
     });
     
-    document.getElementById('toggle').addEventListener('click', () =>{
-        if (audioCtx.state == 'running'){
+    let toggleButton = document.getElementById('toggle');
+    toggleButton.addEventListener('click', () =>{
+        if (toggleButton.dataset.playing == "true"){
             audioCtx.suspend();
-        } else if (audioCtx.state == 'suspended'){
+            audioElement.pause();
+            toggleButton.dataset.playing = "false";
+        } else{
             audioCtx.resume();
+            audioElement.play();
+            toggleButton.dataset.playing = "true";
         }
     })
 }
