@@ -8,13 +8,20 @@ track = track.connect(stereoPanner).connect(analyser).connect(audioCtx.destinati
 
 HandleEventListeners(audioCtx);
 
+// animation parameters
 const colWidth = 2;
 const canvasHeight = 510;
 const canvasWidth = analyser.frequencyBinCount * colWidth;
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.height = canvasHeight;
+canvas.width = canvasWidth; 
+const animColor_g = 33;
+const animColor_b = 100;
+const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
 function HandleEventListeners(audioCtx){
     document.getElementById('panSlider').addEventListener('click', UpdatePanning);
-    document.getElementById('resetPan').addEventListener('click', ResetPanning);
 
     document.getElementById('analyse').addEventListener('click', ()=>{
         AnimateData();
@@ -40,28 +47,15 @@ function UpdatePanning(){
     stereoPanner.pan.value = document.getElementById('panSlider').value;
 }
 
-function ResetPanning(){
-    stereoPanner.pan.value = 0;
-    document.getElementById('panSlider').value = 0;
-}
-
 function AnimateData(){
-    const canvas = document.getElementById('canvas');
-    canvas.height = canvasHeight;
-    canvas.width = canvasWidth; 
-    const ctx = canvas.getContext('2d');
-    
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.66)';
+    ctx.fillStyle = 'rgba(99, 99, 99, 1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    const dataArray = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(dataArray);
 
-
     for (let i = 0; i < dataArray.length; i++){
-        const r = Math.max(dataArray[i], 80);
-        const b = 100;
-        ctx.fillStyle = 'rgba(' + r + ', 33, ' + b + ', 1)';
+        animColor_r = dataArray[i];
+        ctx.fillStyle = 'rgba(' + animColor_r + ', ' + animColor_g + ', ' + animColor_b + ', 1)';
 
         ctx.fillRect(i * colWidth, canvas.height, colWidth, -dataArray[i]/255 * canvas.height);
     }
